@@ -1,0 +1,23 @@
+<?xml version="1.0" ?>
+<dados>
+    <ponto x="0.0" y="368.0"/>
+    <ponto x="124.0" y="276.0"/>
+    <ponto x="248.0" y="184.0"/>
+
+    <reta>
+        <ponto x1="124.0" y1="368.0"/>
+        <ponto x1="248.0" y1="276.0"/>
+    </reta>
+
+    <reta>
+        <ponto x1="248.0" y1="276.0"/>
+        <ponto x1="124.0" y1="184.0"/>
+    </reta>
+
+    <poligono>
+        <ponto x="62" y="414"/>
+        <ponto x="62" y="368"/>
+        <ponto x="124" y="368"/>
+        <ponto x="124" y="414"/>
+    </poligono>
+</dados>
