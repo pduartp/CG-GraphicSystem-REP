@@ -1,18 +1,11 @@
-import sys
-import re
-import xml.etree.ElementTree as ET
-from random import randint
-from PyQt6 import QtCore, QtGui, QtWidgets, uic
+from PyQt6 import QtGui, QtWidgets
 from PyQt6.QtCore import Qt
-from PyQt6.QtWidgets import QApplication
+from PyQt6.QtWidgets import QPushButton, QVBoxLayout, QWidget, QLabel
 from IPython.display import Image
-
-# import classObjGeometricos as obj
-import funcTransformacao as ft
-import classMainWindow as w
+import os
 
 # TODO: DESMEMBRAR EM ARQUIVOS
-import funcoesSegundoTrabalho as fs
+import segundoTrabalho.funcoesSegundoTrabalho as fs
 
 # Classe para a janela principal da aplicação
 class MainWindow(QtWidgets.QMainWindow):
@@ -26,11 +19,52 @@ class MainWindow(QtWidgets.QMainWindow):
         self.size_x = window_x
         self.size_y = window_y
 
+        # Configuração do layout da janela
+        self.central_widget = QWidget()
+        self.setCentralWidget(self.central_widget)
+        self.layout = QVBoxLayout(self.central_widget)
+
+        # Configuração do rótulo e canvas
         self.label = QtWidgets.QLabel()
         canvas = QtGui.QPixmap(window_x, window_y)
         canvas.fill(Qt.GlobalColor.white)
         self.label.setPixmap(canvas)
-        self.setCentralWidget(self.label)
+        self.layout.addWidget(self.label)
+        
+        # Adicionando botões
+        self.button_up = QPushButton('↑', self)
+        self.button_up.clicked.connect(self.move_up)
+        self.layout.addWidget(self.button_up)
+        
+        self.button_left = QPushButton('←', self)
+        self.button_left.clicked.connect(self.move_left)
+        self.layout.addWidget(self.button_left)
+        
+        self.button_right = QPushButton('→', self)
+        self.button_right.clicked.connect(self.move_right)
+        self.layout.addWidget(self.button_right)
+        
+        self.button_down = QPushButton('↓', self)
+        self.button_down.clicked.connect(self.move_down)
+        self.layout.addWidget(self.button_down)
+
+        self.draw_something()
+        
+    # Métodos de movimento conectados aos botões
+    def move_up(self):
+        fs.mover_para_cima(self)
+        self.draw_something()
+
+    def move_down(self):
+        fs.mover_para_baixo(self)
+        self.draw_something()
+
+    def move_left(self):
+        fs.mover_para_esquerda(self)
+        self.draw_something()
+
+    def move_right(self):
+        fs.mover_para_direita(self)
         self.draw_something()
 
     # Método para desenhar os objetos na tela
@@ -73,3 +107,32 @@ class MainWindow(QtWidgets.QMainWindow):
 
         painter.end()
         self.label.setPixmap(canvas)
+        self.create_tempWidget()
+
+    # CRIA UM WIDGET TEMPORÁRIO PARA SALVAR A IMAGEM SEM OS BOTÕES 
+    def create_tempWidget(self):
+        # Criar um widget temporário
+        temp_widget = QWidget()
+        temp_layout = QVBoxLayout(temp_widget)
+        temp_label = QLabel()
+        temp_label.setPixmap(self.label.pixmap())
+        temp_layout.addWidget(temp_label)
+
+        # Redimensionar o widget temporário
+        temp_widget.setFixedSize(temp_label.width(), temp_label.height())
+
+        ##############################
+        #     SALVANDO  A IMAGEM     #
+        ##############################
+
+        # Construir o caminho completo do arquivo de imagem
+        filename = "imagem_resultado.png"
+        filepath = os.path.join("output", filename)
+
+        # Capturar a imagem do widget temporário
+        screenshot = temp_widget.grab()
+        screenshot.save(filepath)
+
+        # Exibindo a imagem no notebook
+        # Image(filename=screenshot)
+

@@ -1,19 +1,3 @@
-import sys
-import re
-import xml.etree.ElementTree as ET
-from random import randint
-from PyQt6 import QtCore, QtGui, QtWidgets, uic
-from PyQt6.QtCore import Qt
-from PyQt6.QtWidgets import QApplication
-from IPython.display import Image
-
-import classObjGeometricos as obj
-import funcTransformacao as ft
-# import classMainWindow as w
-
-# TODO: DESMEMBRAR EM ARQUIVOS
-import funcoesSegundoTrabalho as fs
-
 # Definindo as classes para representar os objetos geométricos
 class Ponto:
     def __init__(self, x, y):
