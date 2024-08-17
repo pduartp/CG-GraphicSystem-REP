@@ -10,6 +10,8 @@ import classMainWindow as w
 import os
 import shutil
 
+import convert
+
 if __name__ == '__main__':
 
     # Parsing do arquivo XML de entrada
@@ -20,9 +22,12 @@ if __name__ == '__main__':
     # Listas para armazenar os pontos, retas e polígono
     pontos = []
     retas = []
-    poligono = []
+    poligonos = []
     viewport = []
     window = []
+
+    pontos3 = []
+    poligono = obj.Poligono(pontos3)
 
     # Iterando sobre os elementos do XML
     for child in root:
@@ -54,19 +59,37 @@ if __name__ == '__main__':
         elif (child.tag == 'poligono'):
             for child3 in child:
                 resultados = re.findall(r'\d+', str(child3.attrib))
-                poligono.append(obj.Ponto(resultados[0], resultados[2]))
+                poligono.pontos.append(obj.Ponto(resultados[0], resultados[2]))
+            poligonos.append(poligono)
 
     #classe polígono
-    poligono2 = obj.Poligono(pontos)
-    ft.transformar2(pontos,retas,poligono,window,viewport)
+    #poligono2 = obj.Poligono(pontos)
+
+    #window antes da transformação
+    window1 = []
+    window1.append(window[0])
+    window1.append(window[1])
+
+
 
     #######################################################
     #   CRIANDO E EXIBINDO A JANELA DA APLICAÇÃO GRÁFICA  #
     #######################################################
 
+    convert.to_int(pontos,retas,poligonos,window,viewport)
+
+    pontos2 = [ponto.copy() for ponto in pontos]
+    retas2 =[reta.copy() for reta in retas]
+    poligonos2 = [poligono.copy() for poligono in poligonos]
+
+
+
+    ft.transformar2(pontos, retas, poligonos, window, viewport)
+
+
     # Criando e exibindo a janela da aplicação gráfica
     app = QtWidgets.QApplication(sys.argv)
-    window = w.MainWindow(pontos, retas, poligono, int(window[1].x) - int(window[0].x), int(window[1].y) - int(window[0].y))
+    window = w.MainWindow(pontos, retas, poligonos, window[0], window[1],    pontos2, retas2, poligonos2, window1[0], window1[1], viewport[0], viewport[1])
     window.show()
     app.exec()
 
@@ -97,7 +120,7 @@ if __name__ == '__main__':
     arquivo.write("\n")
 
     arquivo.write("    <poligono>\n")
-    for ponto in poligono:
+    for ponto in poligono.pontos:
         arquivo.write("        <ponto x=\"" + str(int(ponto.x) - int(margem_x)) + "\" y=\"" + str(int(ponto.y) - int(margem_y)) + "\"/>\n")
     arquivo.write("    </poligono>\n")
     arquivo.write("</dados>")
