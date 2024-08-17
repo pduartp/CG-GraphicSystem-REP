@@ -1,6 +1,6 @@
 from PyQt6 import QtGui, QtWidgets
 from PyQt6.QtCore import Qt
-from PyQt6.QtWidgets import QPushButton, QVBoxLayout, QWidget, QLabel
+from PyQt6.QtWidgets import QPushButton, QVBoxLayout, QWidget, QLabel, QGridLayout
 from IPython.display import Image
 import os
 
@@ -30,7 +30,8 @@ class MainWindow(QtWidgets.QMainWindow):
         canvas.fill(Qt.GlobalColor.white)
         self.label.setPixmap(canvas)
         self.layout.addWidget(self.label)
-        
+
+    
         # Adicionando botões
         self.button_up = QPushButton('↑', self)
         self.button_up.clicked.connect(self.move_up)
@@ -48,6 +49,38 @@ class MainWindow(QtWidgets.QMainWindow):
         self.button_down.clicked.connect(self.move_down)
         self.layout.addWidget(self.button_down)
 
+        self.button_rotate_left = QPushButton('↺', self)
+        self.button_rotate_left.clicked.connect(self.rotate_left)
+        self.layout.addWidget(self.button_rotate_left)
+
+        self.button_rotate_right = QPushButton('↻', self)
+        self.button_rotate_right.clicked.connect(self.rotate_right)
+        self.layout.addWidget(self.button_rotate_right)
+
+        self.button_scale_zoomIn = QPushButton('(+) ZOOM IN', self)
+        self.button_scale_zoomIn.clicked.connect(self.scale_zoomIn)
+        self.layout.addWidget(self.button_scale_zoomIn)
+
+        self.button_scale_zoomOut = QPushButton('(-) ZOOM OUT', self)
+        self.button_scale_zoomOut.clicked.connect(self.scale_zoomOut)
+        self.layout.addWidget(self.button_scale_zoomOut)
+
+        # Criar grid layout
+
+        grid_layout = QGridLayout()
+        grid_layout.addWidget(self.button_up, 0, 1)
+        grid_layout.addWidget(self.button_left, 1, 0)
+        grid_layout.addWidget(self.button_right, 1, 2)
+        grid_layout.addWidget(self.button_down, 1, 1)
+
+        grid_layout.addWidget(self.button_rotate_left, 0, 0)
+        grid_layout.addWidget(self.button_rotate_right, 0, 2)
+
+        grid_layout.addWidget(self.button_scale_zoomIn, 2, 0)
+        grid_layout.addWidget(self.button_scale_zoomOut, 2, 2)
+
+        self.layout.addLayout(grid_layout)
+        
         self.draw_something()
         
     # Métodos de movimento conectados aos botões
@@ -67,6 +100,22 @@ class MainWindow(QtWidgets.QMainWindow):
         fs.mover_para_direita(self)
         self.draw_something()
 
+    def rotate_left(self):
+        fs.rotacionar_para_esquerda(self)
+        self.draw_something()
+
+    def rotate_right(self):
+        fs.rotacionar_para_direita(self)
+        self.draw_something()
+
+    def scale_zoomIn(self):
+        fs.escala_ampliar(self)
+        self.draw_something()
+
+    def scale_zoomOut(self):
+        fs.escala_diminuir(self)
+        self.draw_something()
+        
     # Método para desenhar os objetos na tela
     def draw_something(self):
        
