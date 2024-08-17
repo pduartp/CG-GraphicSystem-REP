@@ -49,8 +49,12 @@ def transformar(window, viewport, pontos, retas, poligono):
     window[1].x = viewport_x
     window[1].y = viewport_y
 
+
+
+
+
 #função para transformar os pontos para o sistema de coordenadas da viewport com a margem e o y invertido
-def transformar2(pontos,retas,poligono,window,viewport):
+def transformar2(pontos,retas,poligonos,window,viewport):
     viewport_x = int(viewport[1].x) - int(viewport[0].x)
     viewport_y = int(viewport[1].y) - int(viewport[0].y)
 
@@ -76,12 +80,15 @@ def transformar2(pontos,retas,poligono,window,viewport):
         reta.ponto2.y = int(viewport_y) - ((int(reta.ponto2.y) * altura)) + margem_y
 
     # Aplicando a transformação no polígono
-    for ponto in poligono:
-        ponto.x = (int(ponto.x) * largura) + margem_x
-        ponto.y = int(viewport_y) - ((int(ponto.y) * altura)) + margem_y
+    for poligono in poligonos:
+        for ponto in poligono.pontos:
+            ponto.x = (int(ponto.x) * largura) + margem_x
+            ponto.y = int(viewport_y) - ((int(ponto.y) * altura)) + margem_y
 
     # Atualizando os limites da window para os da viewport
     window[0].x = 0
     window[0].y = 0
     window[1].x = viewport_x + margem_x
     window[1].y = viewport_y + margem_y
+
+
