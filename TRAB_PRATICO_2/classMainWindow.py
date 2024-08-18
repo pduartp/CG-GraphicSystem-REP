@@ -52,10 +52,6 @@ class MainWindow(QtWidgets.QMainWindow):
         self.label.setPixmap(canvas)
         self.layout.addWidget(self.label)
 
-<<<<<<< HEAD
-    
-=======
->>>>>>> teste
         # Adicionando botões
         self.button_up = QPushButton('↑', self)
         self.button_up.clicked.connect(self.move_up)
@@ -104,11 +100,7 @@ class MainWindow(QtWidgets.QMainWindow):
         grid_layout.addWidget(self.button_scale_zoomOut, 2, 2)
 
         self.layout.addLayout(grid_layout)
-<<<<<<< HEAD
-        
-=======
 
->>>>>>> teste
         self.draw_something()
 
     def atualizar_viewport(self):
@@ -208,11 +200,7 @@ class MainWindow(QtWidgets.QMainWindow):
     def scale_zoomOut(self):
         fs.escala_diminuir(self)
         self.draw_something()
-<<<<<<< HEAD
-        
-=======
 
->>>>>>> teste
     # Método para desenhar os objetos na tela
     def draw_something(self):
         canvas = self.label.pixmap()
@@ -282,4 +270,3 @@ class MainWindow(QtWidgets.QMainWindow):
 
         # Exibindo a imagem no notebook
         # Image(filename=screenshot)
-
