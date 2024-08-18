@@ -97,6 +97,10 @@ class MainWindow(QtWidgets.QMainWindow):
         self.button_add_polygon.clicked.connect(self.add_polygon)
         self.layout.addWidget(self.button_add_polygon)
 
+        self.button_window_reset = QPushButton('RESET', self)
+        self.button_window_reset.clicked.connect(self.window_reset)
+        self.layout.addWidget(self.button_window_reset)
+
         # Criar grid layout
 
         grid_layout = QGridLayout()
@@ -108,12 +112,13 @@ class MainWindow(QtWidgets.QMainWindow):
         grid_layout.addWidget(self.button_rotate_left, 0, 0)
         grid_layout.addWidget(self.button_rotate_right, 0, 2)
 
-        grid_layout.addWidget(self.button_add_point, 2, 0)
-        grid_layout.addWidget(self.button_add_line, 2, 1)
-        grid_layout.addWidget(self.button_add_polygon, 2, 2)
+        grid_layout.addWidget(self.button_scale_zoomIn, 2, 0)
+        grid_layout.addWidget(self.button_window_reset, 2, 1)
+        grid_layout.addWidget(self.button_scale_zoomOut, 2, 2)
 
-        grid_layout.addWidget(self.button_scale_zoomIn, 3, 0)
-        grid_layout.addWidget(self.button_scale_zoomOut, 3, 2)
+        grid_layout.addWidget(self.button_add_point, 3, 0)
+        grid_layout.addWidget(self.button_add_line, 3, 1)
+        grid_layout.addWidget(self.button_add_polygon, 3, 2)
 
         self.layout.addLayout(grid_layout)
 
@@ -226,6 +231,10 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def add_polygon(self):
         fs.adicionar_poligono(self)
+        self.draw_something()
+
+    def window_reset(self):
+        fs.resetar_window(self)
         self.draw_something()
 
     # Método para desenhar os objetos na tela

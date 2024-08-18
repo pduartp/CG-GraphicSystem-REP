@@ -188,3 +188,12 @@ def adicionar_linha():
 
 def adicionar_poligono():
     print("<<< ADICIONAR POLIGONO >>>")
+
+##################################
+#   FUNÇÃO PARA RESETAR A WINDOW #
+##################################
+
+# TODO: IMPLEMENTAR
+
+def resetar_window():
+    print("<<< RESETAR WINDOW >>>")
