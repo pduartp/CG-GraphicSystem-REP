@@ -5,15 +5,15 @@ from IPython.display import Image
 import os
 import funcTransformacao as ft
 import classObjGeometricos as obj
-
-# TODO: DESMEMBRAR EM ARQUIVOS
 import segundoTrabalho.funcoesSegundoTrabalho as fs
 
 # Classe para a janela principal da aplicação
 class MainWindow(QtWidgets.QMainWindow):
-    def __init__(self, pontos, retas, poligonos, janela_1, janela_2, pontos_window,retas_window,poligonos_window, window_1, window_2, viewport_margem, viewport):
+    def __init__(self, pontos, retas, poligonos, janela_1, janela_2, 
+                 pontos_window,retas_window,poligonos_window, window_1, 
+                 window_2, viewport_margem, viewport):
+        
         super().__init__()
-
         self.pontos = pontos
         self.retas = retas
         self.poligonos = poligonos
@@ -39,8 +39,6 @@ class MainWindow(QtWidgets.QMainWindow):
         #coordenadas da viewport
         self.viewport_margem = viewport_margem
         self.viewport = viewport
-
-
 
         # Configuração do layout da janela
         self.central_widget = QWidget()
@@ -105,75 +103,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
         self.draw_something()
 
-
-
-
-
     def atualizar_viewport(self):
-
-        """
-        pontos2 = [ ponto_window.copy() for ponto_window in self.pontos_window]
-        retas2 = [reta_window.copy() for reta_window in self.retas_window]
-        poligonos2 = [poligono_window.copy() for poligono_window in self.poligonos_window]
-
-        window2 = []
-
-        ponto001 = obj.Ponto(self.window_1.x, self.window_1.y)
-        ponto002 = obj.Ponto(self.window_2.x, self.window_2.y)
-
-        window2.append(ponto001)
-        window2.append(ponto002)
-
-        ponto003 = obj.Ponto(self.viewport_01.x, self.viewport_01.y)
-        ponto004 = obj.Ponto(self.viewport_02.x, self.viewport_02.y)
-
-        viewport2 = []
-
-        viewport2.append(ponto003)
-        viewport2.append(ponto004)
-
-        print([ponto3.x for ponto3 in pontos2])
-
-        ft.transformar2(pontos2,retas2,poligonos2,window2, viewport2)
-
-        print([ponto3.x for ponto3 in pontos2])
-
-        self.viewport_1.x = window2[0].x
-        self.viewport_1.y = window2[0].y
-        self.viewport_2.x = window2[1].x
-        self.viewport_2.y = window2[1].y
-
-        i = 0
-        for ponto in self.pontos:
-            ponto.x = pontos2[i].x
-            ponto.y = pontos2[i].y
-            i += 1
-
-
-        i = 0
-        for reta in self.retas:
-
-           reta.ponto1.x = retas2[i].ponto1.x
-           reta.ponto1.y = retas2[i].ponto1.y
-           reta.ponto2.x = retas2[i].ponto2.x
-           reta.ponto2.y = retas2[i].ponto2.y
-
-           i += 1
-
-        i = 0
-        for poligono in self.poligonos:
-            i2 = 0
-            for ponto in poligono.pontos:
-                ponto.x = poligonos2[i].pontos[i2].x
-                ponto.y = poligonos2[i].pontos[i2].y
-
-                i2+=1
-
-            i+=1
-            """
-
-
-
         window2 = []
         viewport2 = []
 
@@ -189,7 +119,6 @@ class MainWindow(QtWidgets.QMainWindow):
         viewport2.append(ponto003)
         viewport2.append(ponto004)
 
-
         #guarda os pontos retas e polígonos em variáveis auxiliares
 
         pontos_10 = []
@@ -204,55 +133,25 @@ class MainWindow(QtWidgets.QMainWindow):
             retas_10.append( self.retas_window[i].copy())
 
         for i, poligono in enumerate(self.poligonos_window):
-
             poligonos_10.append(self.poligonos_window[i].copy())
 
             for i2, ponto in enumerate(self.poligonos_window[i].pontos):
                 poligonos_10[i].pontos.append(self.poligonos_window[i].pontos[i2])
-
                 poligonos_10[i].pontos[i2].x = self.poligonos_window[i].pontos[i2].x
                 poligonos_10[i].pontos[i2].y = self.poligonos_window[i].pontos[i2].y
 
-
-
         #faz a transformação
-
-
         ft.transformar2(self.pontos_window, self.retas_window,self.poligonos_window, window2, viewport2)
 
-
-
-
-
-
-        """
-        board = ['b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b']
-        for i, item in enumerate(board):
-            if item == 'b':
-                board[i] = 'a'
-        print(board)
-        """
-
-
         for i, ponto in enumerate(self.pontos):
-
             self.pontos[i] = self.pontos_window[i].copy()
-
 
         for i, reta in enumerate(self.retas):
             self.retas[i] = self.retas_window[i].copy()
 
-
         for i, poligono in enumerate(self.poligonos):
-
             for i2, ponto in enumerate(self.poligonos[i].pontos):
                 self.poligonos[i].pontos[i2] = self.poligonos_window[i].pontos[i2].copy()
-
-
-
-
-
-
 
         for i, ponto in enumerate(self.pontos_window):
             self.pontos_window[i] = pontos_10[i].copy()
@@ -261,34 +160,26 @@ class MainWindow(QtWidgets.QMainWindow):
             self.retas_window[i] = retas_10[i].copy()
 
         for i, poligono in enumerate(self.poligonos_window):
-
             for i2, ponto in enumerate(self.poligonos_window[i].pontos):
-
                 print("antes")
                 print(self.poligonos_window[i].pontos[i2].y)
-
                 self.poligonos_window[i].pontos[i2].x = poligonos_10[i].pontos[i2].x
                 self.poligonos_window[i].pontos[i2].y = poligonos_10[i].pontos[i2].y
-
                 print("depois")
                 print(self.poligonos_window[i].pontos[i2].y)
 
     # Métodos de movimento conectados aos botões
     def move_up(self):
         fs.mover_para_cima(self)
-
         self.draw_something()
-
 
     def move_down(self):
         fs.mover_para_baixo(self)
-
         self.draw_something()
 
     def move_left(self):
         fs.mover_para_esquerda(self)
         self.draw_something()
-
 
     def move_right(self):
         fs.mover_para_direita(self)
@@ -311,10 +202,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.draw_something()
 
     # Método para desenhar os objetos na tela
-
     def draw_something(self):
-
-
         canvas = self.label.pixmap()
         canvas.fill(Qt.GlobalColor.white)
         painter = QtGui.QPainter(canvas)
@@ -352,6 +240,7 @@ class MainWindow(QtWidgets.QMainWindow):
             painter.drawLine(int(poligono.pontos[i].x), int(poligono.pontos[i].y), int(poligono.pontos[0].x), int(poligono.pontos[0].y))
 
         painter.end()
+        
         self.label.setPixmap(canvas)
         self.create_tempWidget()
 

@@ -12,6 +12,7 @@ class Reta:
     def __init__(self, Ponto1, Ponto2):
         self.ponto1 = Ponto1
         self.ponto2 = Ponto2
+
     def copy(self):
         ponto01 = Ponto(self.ponto1.x,self.ponto1.y)
         ponto02 = Ponto(self.ponto2.x,self.ponto2.y)
@@ -19,7 +20,6 @@ class Reta:
         return reta2
 
 class Poligono:
-
     def __init__(self,pontos1):
         tamanho = len(pontos1)
         self.pontos = []
@@ -27,8 +27,8 @@ class Poligono:
         while(i<tamanho):
             self.pontos.append(pontos1[i])
             i+=1
-    def copy(self):
 
+    def copy(self):
         pontos2 = []
         for ponto in self.pontos:
             ponto1 = ponto.copy()

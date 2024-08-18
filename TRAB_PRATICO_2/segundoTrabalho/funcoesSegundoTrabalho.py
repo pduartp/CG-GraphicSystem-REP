@@ -1,4 +1,3 @@
-
 import math
 
 ############################################
@@ -8,67 +7,6 @@ import math
 ################################
 #   FUNÇÃO PARA MOVER IMAGEM   #
 ################################
-
-
-"""
-def mover_para_cima(window):
-
-    for ponto in window.pontos:        
-        ponto.y = ponto.y-1
-
-    for reta in window.retas:      
-        reta.ponto1.y = reta.ponto1.y -1
-        reta.ponto2.y = reta.ponto2.y-1
-
-    for poligono in window.poligonos:
-        for ponto in poligono:
-            ponto.y = ponto.y - 1
- 
-
-def mover_para_baixo(window):
- 
-    for ponto in window.pontos:        
-        ponto.y = ponto.y+1
-
-    for reta in window.retas:      
-        reta.ponto1.y = reta.ponto1.y +1
-        reta.ponto2.y = reta.ponto2.y +1
-
-    for poligono in window.poligonos:
-        for ponto in poligono:
-            ponto.y = ponto.y + 1
-
-
-def mover_para_direita(window):  
-
-    for ponto in window.pontos:        
-        ponto.x = ponto.x+1
-
-    for reta in window.retas:      
-        reta.ponto1.x = reta.ponto1.x +1
-        reta.ponto2.x = reta.ponto2.x +1
-
-    for poligono in window.poligonos:
-        for ponto in poligono:
-            ponto.x = ponto.x + 1
-
-
-def mover_para_esquerda(window):
-
-    for ponto in window.pontos:        
-        ponto.x = ponto.x - 1
-
-    for reta in window.retas:      
-        reta.ponto1.x = reta.ponto1.x - 1
-        reta.ponto2.x = reta.ponto2.x - 1
-
-    for poligono in window.poligonos:
-        for ponto in poligono:
-            ponto.x = ponto.x - 1
-
-"""
-
-
 
 def mover_para_cima(window):
 
@@ -84,9 +22,7 @@ def mover_para_cima(window):
         for ponto in poligono.pontos:
             ponto.y = ponto.y + 1
 
-
     window.atualizar_viewport()
-
 
 def mover_para_baixo(window):
     for ponto in window.pontos_window:
@@ -102,7 +38,6 @@ def mover_para_baixo(window):
 
     window.atualizar_viewport()
 
-
 def mover_para_direita(window):
     for ponto in window.pontos_window:
         ponto.x = ponto.x + 1
@@ -116,7 +51,6 @@ def mover_para_direita(window):
             ponto.x = ponto.x + 1
 
     window.atualizar_viewport()
-
 
 def mover_para_esquerda(window):
     for ponto in window.pontos_window:
@@ -132,39 +66,16 @@ def mover_para_esquerda(window):
 
     window.atualizar_viewport()
 
+#####################################
+#   FUNÇÃO PARA ROTACIONAR IMAGEM   #
+#####################################
 
+# usar matrizes homogêneas
+# deslocar a imagem de modo que o centro corresponda ao centro da imagem, e não à coordenada 0,0
+# aplicar a transformação e deslocar a imagem de volta
 
-
-    #####################################
-    #   FUNÇÃO PARA ROTACIONAR IMAGEM   #
-    #####################################
-
-    # usar matrizes homogêneas
-    # deslocar a imagem de modo que o centro corresponda ao centro da imagem, e não à coordenada 0,0
-    # aplicar a transformação e deslocar a imagem de volta
-
-    # Função para calcular o centro da janela
+# Função para calcular o centro da janela
 def calcular_centro(window):
-
-    """
-    #para guardar os pontos dos polígonos
-    pontos_poligonos = []
-    for i, poligono in enumerate(window.poligonos_window):
-
-        for i2, ponto in enumerate(window.poligonos_window[i].pontos):
-
-            pontos_poligonos.append(window.poligonos_window[i].pontos[i2])
-
-
-    # Supondo que `window.pontos`, `window.retas` e `window.poligono` são listas de pontos (x, y)
-    todos_pontos = window.pontos_window + [reta.ponto1 for reta in window.retas_window] + [reta.ponto2 for reta in
-                                                                                 window.retas_window] + pontos_poligonos
-    soma_x = sum(ponto.x for ponto in todos_pontos)
-    soma_y = sum(ponto.y for ponto in todos_pontos)
-    centro_x = soma_x / len(todos_pontos)
-    centro_y = soma_y / len(todos_pontos)
-
-    """
     centro_x = (window.window_2.x-window.window_1.x)/2
     centro_y = (window.window_2.y-window.window_1.y)/2
 
@@ -198,14 +109,10 @@ def rotacionar_para_esquerda(window, angulo=15):
         aplicar_rotacao(reta.ponto1, angulo, cx, cy)
         aplicar_rotacao(reta.ponto2, angulo, cx, cy)
 
-    #####################
     pontos_poligonos = []
     for i, poligono in enumerate(window.poligonos_window):
-
         for i2, ponto in enumerate(window.poligonos_window[i].pontos):
             pontos_poligonos.append(window.poligonos_window[i].pontos[i2])
-
-    #####################
 
     for ponto in pontos_poligonos:
         aplicar_rotacao(ponto, angulo, cx, cy)
@@ -216,9 +123,6 @@ def rotacionar_para_esquerda(window, angulo=15):
 def rotacionar_para_direita(window, angulo=15):
     # Rotacionar à direita é o mesmo que rotacionar à esquerda com ângulo negativo
     rotacionar_para_esquerda(window, -angulo)
-
-
-
 
 ############################################################
 #   FUNÇÕES PARA AUMENTAR OU REDUZIR O TAMANHO DA IMAGEM   #
@@ -254,15 +158,11 @@ def escala_ampliar(window, fator_escala=1.1):
         aplicar_escala(reta.ponto1, fator_escala, cx, cy)
         aplicar_escala(reta.ponto2, fator_escala, cx, cy)
 
-    #####################
-
     pontos_poligonos = []
     for i, poligono in enumerate(window.poligonos_window):
 
         for i2, ponto in enumerate(window.poligonos_window[i].pontos):
             pontos_poligonos.append(window.poligonos_window[i].pontos[i2])
-
-    #####################
 
     for ponto in pontos_poligonos:
         aplicar_escala(ponto, fator_escala, cx, cy)
@@ -273,5 +173,3 @@ def escala_ampliar(window, fator_escala=1.1):
 def escala_diminuir(window, fator_escala=0.9):
     # Redução é uma ampliação com fator < 1
     escala_ampliar(window, fator_escala)
-
-#   funções para o segundo trabalho fim    #

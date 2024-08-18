@@ -3,17 +3,14 @@ import sys
 import re
 import xml.etree.ElementTree as ET
 from PyQt6 import QtWidgets
-
 import classObjGeometricos as obj
 import funcTransformacao as ft
 import classMainWindow as w
 import os
 import shutil
-
 import convert
 
 if __name__ == '__main__':
-
     # Parsing do arquivo XML de entrada
     tree = ET.parse('entrada.xml')
     root = tree.getroot()
@@ -55,7 +52,6 @@ if __name__ == '__main__':
             
             retas.append(obj.Reta(pontos_da_reta[0], pontos_da_reta[1]))
 
-
         elif (child.tag == 'poligono'):
             for child3 in child:
                 resultados = re.findall(r'\d+', str(child3.attrib))
@@ -64,7 +60,6 @@ if __name__ == '__main__':
 
     #convert.to_int(pontos, retas, poligonos, window, viewport)
     convert.to_float(pontos, retas, poligonos, window, viewport)
-
 
     #classe polígono
     #poligono2 = obj.Poligono(pontos)
@@ -75,22 +70,15 @@ if __name__ == '__main__':
     window1.append(window[0].copy())
     window1.append(window[1].copy())
 
-
-
     #######################################################
     #   CRIANDO E EXIBINDO A JANELA DA APLICAÇÃO GRÁFICA  #
     #######################################################
-
-
 
     pontos2 = [ponto.copy() for ponto in pontos]
     retas2 =[reta.copy() for reta in retas]
     poligonos2 = [poligono.copy() for poligono in poligonos]
 
-
-
     ft.transformar2(pontos, retas, poligonos, window, viewport)
-
 
     # Criando e exibindo a janela da aplicação gráfica
     app = QtWidgets.QApplication(sys.argv)
@@ -120,13 +108,14 @@ if __name__ == '__main__':
         arquivo.write("    <reta>\n")
         arquivo.write("        <ponto x1=\"" + str(reta.ponto1.x - margem_x) + "\" y1=\"" + str(reta.ponto1.y - margem_y) + "\"/>\n")
         arquivo.write("        <ponto x1=\"" + str(reta.ponto2.x - margem_x) + "\" y1=\"" + str(reta.ponto2.y - margem_y) + "\"/>\n")
-
         arquivo.write("    </reta>\n")
+    
     arquivo.write("\n")
 
     arquivo.write("    <poligono>\n")
     for ponto in poligono.pontos:
         arquivo.write("        <ponto x=\"" + str(int(ponto.x) - int(margem_x)) + "\" y=\"" + str(int(ponto.y) - int(margem_y)) + "\"/>\n")
+    
     arquivo.write("    </poligono>\n")
     arquivo.write("</dados>")
     arquivo.close()

@@ -49,8 +49,6 @@ def to_float(pontos,retas,poligonos,window,viewport):
     viewport[1].x = float(viewport[1].x)
     viewport[1].y = float(viewport[1].y)
 
-
-
     for ponto in pontos:
         ponto.x = float(ponto.x)
         ponto.y = float(ponto.y)
