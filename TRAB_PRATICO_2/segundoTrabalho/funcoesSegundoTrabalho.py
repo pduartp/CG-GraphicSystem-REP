@@ -173,3 +173,18 @@ def escala_ampliar(window, fator_escala=1.1):
 def escala_diminuir(window, fator_escala=0.9):
     # Redução é uma ampliação com fator < 1
     escala_ampliar(window, fator_escala)
+
+##################################################################
+#   FUNÇÕES PARA ADICIONAR OBJETOS: PONTOS, LINHAS E POLIGONOS   #
+##################################################################
+
+# TODO: IMPLEMENTAR
+
+def adicionar_ponto():
+    print("<<< ADICIONAR PONTO >>>")
+
+def adicionar_linha():
+    print("<<< ADICIONAR LINHA >>>")
+
+def adicionar_poligono():
+    print("<<< ADICIONAR POLIGONO >>>")

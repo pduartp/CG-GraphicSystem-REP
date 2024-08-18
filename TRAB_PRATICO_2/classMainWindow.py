@@ -85,6 +85,18 @@ class MainWindow(QtWidgets.QMainWindow):
         self.button_scale_zoomOut.clicked.connect(self.scale_zoomOut)
         self.layout.addWidget(self.button_scale_zoomOut)
 
+        self.button_add_point = QPushButton('ADICIONAR PONTO', self)
+        self.button_add_point.clicked.connect(self.add_point)
+        self.layout.addWidget(self.button_add_point)
+
+        self.button_add_line = QPushButton('ADICIONAR LINHA', self)
+        self.button_add_line.clicked.connect(self.add_line)
+        self.layout.addWidget(self.button_add_line)
+
+        self.button_add_polygon = QPushButton('ADICIONAR POLÍGONO', self)
+        self.button_add_polygon.clicked.connect(self.add_polygon)
+        self.layout.addWidget(self.button_add_polygon)
+
         # Criar grid layout
 
         grid_layout = QGridLayout()
@@ -96,8 +108,12 @@ class MainWindow(QtWidgets.QMainWindow):
         grid_layout.addWidget(self.button_rotate_left, 0, 0)
         grid_layout.addWidget(self.button_rotate_right, 0, 2)
 
-        grid_layout.addWidget(self.button_scale_zoomIn, 2, 0)
-        grid_layout.addWidget(self.button_scale_zoomOut, 2, 2)
+        grid_layout.addWidget(self.button_add_point, 2, 0)
+        grid_layout.addWidget(self.button_add_line, 2, 1)
+        grid_layout.addWidget(self.button_add_polygon, 2, 2)
+
+        grid_layout.addWidget(self.button_scale_zoomIn, 3, 0)
+        grid_layout.addWidget(self.button_scale_zoomOut, 3, 2)
 
         self.layout.addLayout(grid_layout)
 
@@ -120,7 +136,6 @@ class MainWindow(QtWidgets.QMainWindow):
         viewport2.append(ponto004)
 
         #guarda os pontos retas e polígonos em variáveis auxiliares
-
         pontos_10 = []
         retas_10 = []
         poligonos_10 = []
@@ -199,6 +214,18 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def scale_zoomOut(self):
         fs.escala_diminuir(self)
+        self.draw_something()
+
+    def add_point(self):
+        fs.adicionar_ponto(self)
+        self.draw_something()
+
+    def add_line(self):
+        fs.adicionar_linha(self)
+        self.draw_something()
+
+    def add_polygon(self):
+        fs.adicionar_poligono(self)
         self.draw_something()
 
     # Método para desenhar os objetos na tela
