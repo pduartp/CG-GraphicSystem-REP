@@ -146,6 +146,7 @@ def mover_para_esquerda(window):
     # Função para calcular o centro da janela
 def calcular_centro(window):
 
+    """
     #para guardar os pontos dos polígonos
     pontos_poligonos = []
     for i, poligono in enumerate(window.poligonos_window):
@@ -162,6 +163,11 @@ def calcular_centro(window):
     soma_y = sum(ponto.y for ponto in todos_pontos)
     centro_x = soma_x / len(todos_pontos)
     centro_y = soma_y / len(todos_pontos)
+
+    """
+    centro_x = (window.window_2.x-window.window_1.x)/2
+    centro_y = (window.window_2.y-window.window_1.y)/2
+
     return centro_x, centro_y
 
 # Função para aplicar rotação em torno de um ponto específico (cx, cy)
@@ -241,15 +247,27 @@ def escala_ampliar(window, fator_escala=1.1):
     # 10% de aumento
     cx, cy = calcular_centro(window)
 
-    for ponto in window.pontos:
+    for ponto in window.pontos_window:
         aplicar_escala(ponto, fator_escala, cx, cy)
 
-    for reta in window.retas:
+    for reta in window.retas_window:
         aplicar_escala(reta.ponto1, fator_escala, cx, cy)
         aplicar_escala(reta.ponto2, fator_escala, cx, cy)
 
-    for ponto in window.poligono:
+    #####################
+
+    pontos_poligonos = []
+    for i, poligono in enumerate(window.poligonos_window):
+
+        for i2, ponto in enumerate(window.poligonos_window[i].pontos):
+            pontos_poligonos.append(window.poligonos_window[i].pontos[i2])
+
+    #####################
+
+    for ponto in pontos_poligonos:
         aplicar_escala(ponto, fator_escala, cx, cy)
+
+    window.atualizar_viewport()
 
 # Função para reduzir a imagem em 10%
 def escala_diminuir(window, fator_escala=0.9):
