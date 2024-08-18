@@ -62,13 +62,16 @@ if __name__ == '__main__':
                 poligono.pontos.append(obj.Ponto(resultados[0], resultados[2]))
             poligonos.append(poligono)
 
+    convert.to_int(pontos, retas, poligonos, window, viewport)
+
     #classe polígono
     #poligono2 = obj.Poligono(pontos)
 
     #window antes da transformação
     window1 = []
-    window1.append(window[0])
-    window1.append(window[1])
+
+    window1.append(window[0].copy())
+    window1.append(window[1].copy())
 
 
 
@@ -76,7 +79,7 @@ if __name__ == '__main__':
     #   CRIANDO E EXIBINDO A JANELA DA APLICAÇÃO GRÁFICA  #
     #######################################################
 
-    convert.to_int(pontos,retas,poligonos,window,viewport)
+
 
     pontos2 = [ponto.copy() for ponto in pontos]
     retas2 =[reta.copy() for reta in retas]
