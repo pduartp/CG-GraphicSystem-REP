@@ -1,6 +1,6 @@
 from PyQt6 import QtGui, QtWidgets
 from PyQt6.QtCore import Qt
-from PyQt6.QtWidgets import QPushButton, QVBoxLayout, QWidget, QLabel
+from PyQt6.QtWidgets import QPushButton, QVBoxLayout, QWidget, QLabel, QGridLayout
 from IPython.display import Image
 import os
 import funcTransformacao as ft
@@ -71,6 +71,38 @@ class MainWindow(QtWidgets.QMainWindow):
         self.button_down.clicked.connect(self.move_down)
         self.layout.addWidget(self.button_down)
 
+        self.button_rotate_left = QPushButton('↺', self)
+        self.button_rotate_left.clicked.connect(self.rotate_left)
+        self.layout.addWidget(self.button_rotate_left)
+
+        self.button_rotate_right = QPushButton('↻', self)
+        self.button_rotate_right.clicked.connect(self.rotate_right)
+        self.layout.addWidget(self.button_rotate_right)
+
+        self.button_scale_zoomIn = QPushButton('(+) ZOOM IN', self)
+        self.button_scale_zoomIn.clicked.connect(self.scale_zoomIn)
+        self.layout.addWidget(self.button_scale_zoomIn)
+
+        self.button_scale_zoomOut = QPushButton('(-) ZOOM OUT', self)
+        self.button_scale_zoomOut.clicked.connect(self.scale_zoomOut)
+        self.layout.addWidget(self.button_scale_zoomOut)
+
+        # Criar grid layout
+
+        grid_layout = QGridLayout()
+        grid_layout.addWidget(self.button_up, 0, 1)
+        grid_layout.addWidget(self.button_left, 1, 0)
+        grid_layout.addWidget(self.button_right, 1, 2)
+        grid_layout.addWidget(self.button_down, 1, 1)
+
+        grid_layout.addWidget(self.button_rotate_left, 0, 0)
+        grid_layout.addWidget(self.button_rotate_right, 0, 2)
+
+        grid_layout.addWidget(self.button_scale_zoomIn, 2, 0)
+        grid_layout.addWidget(self.button_scale_zoomOut, 2, 2)
+
+        self.layout.addLayout(grid_layout)
+
         self.draw_something()
 
 
@@ -78,6 +110,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
 
     def atualizar_viewport(self):
+
         """
         pontos2 = [ ponto_window.copy() for ponto_window in self.pontos_window]
         retas2 = [reta_window.copy() for reta_window in self.retas_window]
@@ -139,16 +172,10 @@ class MainWindow(QtWidgets.QMainWindow):
             i+=1
             """
 
-        i = 0
-        print("pontos antes: ")
-        for ponto in self.pontos_window:
-            print("ponto " + str(i))
-            print(ponto.x)
-            print(ponto.y)
-            i+=1
 
-        window = []
-        viewport = []
+
+        window2 = []
+        viewport2 = []
 
         ponto001 = obj.Ponto(self.window_1.x,self.window_1.y)
         ponto002 = obj.Ponto(self.window_2.x,self.window_2.y)
@@ -156,28 +183,95 @@ class MainWindow(QtWidgets.QMainWindow):
         ponto003 = obj.Ponto(self.viewport_margem.x, self.viewport_margem.y)
         ponto004 = obj.Ponto(self.viewport.x, self.viewport.y)
 
-        window.append(ponto001)
-        window.append(ponto002)
+        window2.append(ponto001)
+        window2.append(ponto002)
 
-        viewport.append(ponto003)
-        viewport.append(ponto004)
-
-
-        #ft.transformar2(self.pontos_window, self.retas_window,self.poligonos_window, self.window, self.viewport)
-
-        self.viewport[0].x = 10
-
-        i = 0
-        print("pontos depois: ")
-        for ponto in self.pontos_window:
-            print("ponto " + str(i))
-            print(ponto.x)
-            print(ponto.y)
-            i += 1
+        viewport2.append(ponto003)
+        viewport2.append(ponto004)
 
 
+        #guarda os pontos retas e polígonos em variáveis auxiliares
+
+        pontos_10 = []
+        retas_10 = []
+        poligonos_10 = []
+
+        for i, ponto in enumerate(self.pontos_window):
+            pontos_10.append(self.pontos_window[i].copy())
 
 
+        for i, reta in enumerate(self.retas_window):
+            retas_10.append( self.retas_window[i].copy())
+
+        for i, poligono in enumerate(self.poligonos_window):
+
+            poligonos_10.append(self.poligonos_window[i].copy())
+
+            for i2, ponto in enumerate(self.poligonos_window[i].pontos):
+                poligonos_10[i].pontos.append(self.poligonos_window[i].pontos[i2])
+
+                poligonos_10[i].pontos[i2].x = self.poligonos_window[i].pontos[i2].x
+                poligonos_10[i].pontos[i2].y = self.poligonos_window[i].pontos[i2].y
+
+
+
+        #faz a transformação
+
+
+        ft.transformar2(self.pontos_window, self.retas_window,self.poligonos_window, window2, viewport2)
+
+
+
+
+
+
+        """
+        board = ['b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b']
+        for i, item in enumerate(board):
+            if item == 'b':
+                board[i] = 'a'
+        print(board)
+        """
+
+
+        for i, ponto in enumerate(self.pontos):
+
+            self.pontos[i] = self.pontos_window[i].copy()
+
+
+        for i, reta in enumerate(self.retas):
+            self.retas[i] = self.retas_window[i].copy()
+
+
+        for i, poligono in enumerate(self.poligonos):
+
+            for i2, ponto in enumerate(self.poligonos[i].pontos):
+                self.poligonos[i].pontos[i2] = self.poligonos_window[i].pontos[i2].copy()
+
+
+
+
+
+
+
+        for i, ponto in enumerate(self.pontos_window):
+            self.pontos_window[i] = pontos_10[i].copy()
+
+        for i, reta in enumerate(self.retas_window):
+            self.retas_window[i] = retas_10[i].copy()
+
+        for i, poligono in enumerate(self.poligonos_window):
+
+            for i2, ponto in enumerate(self.poligonos_window[i].pontos):
+
+                print("antes")
+                print(self.poligonos_window[i].pontos[i2].y)
+
+                self.poligonos_window[i].pontos[i2].x = poligonos_10[i].pontos[i2].x
+                self.poligonos_window[i].pontos[i2].y = poligonos_10[i].pontos[i2].y
+
+                print("depois")
+                print(self.poligonos_window[i].pontos[i2].y)
 
     # Métodos de movimento conectados aos botões
     def move_up(self):
@@ -200,7 +294,24 @@ class MainWindow(QtWidgets.QMainWindow):
         fs.mover_para_direita(self)
         self.draw_something()
 
+    def rotate_left(self):
+        fs.rotacionar_para_esquerda(self)
+        self.draw_something()
+
+    def rotate_right(self):
+        fs.rotacionar_para_direita(self)
+        self.draw_something()
+
+    def scale_zoomIn(self):
+        fs.escala_ampliar(self)
+        self.draw_something()
+
+    def scale_zoomOut(self):
+        fs.escala_diminuir(self)
+        self.draw_something()
+
     # Método para desenhar os objetos na tela
+
     def draw_something(self):
 
 
