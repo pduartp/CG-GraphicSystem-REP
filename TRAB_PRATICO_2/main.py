@@ -62,7 +62,9 @@ if __name__ == '__main__':
                 poligono.pontos.append(obj.Ponto(resultados[0], resultados[2]))
             poligonos.append(poligono)
 
-    convert.to_int(pontos, retas, poligonos, window, viewport)
+    #convert.to_int(pontos, retas, poligonos, window, viewport)
+    convert.to_float(pontos, retas, poligonos, window, viewport)
+
 
     #classe polígono
     #poligono2 = obj.Poligono(pontos)
