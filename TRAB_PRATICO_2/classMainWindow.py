@@ -49,7 +49,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
         # Configuração do rótulo e canvas
         self.label = QtWidgets.QLabel()
-        canvas = QtGui.QPixmap(self.size_x, self.size_y)
+        canvas = QtGui.QPixmap(int(self.size_x),int(self.size_y))
         canvas.fill(Qt.GlobalColor.white)
         self.label.setPixmap(canvas)
         self.layout.addWidget(self.label)
