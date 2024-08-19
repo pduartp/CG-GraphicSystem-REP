@@ -220,7 +220,8 @@ def adicionar_poligono(window,coordenadas):
 
     for i, number in enumerate(resultados):
         if i>0:
-            pontos.append(obj.Ponto(float(resultados[i-1]),float(resultados[i])))
+            if i%2 == 1:
+                pontos.append(obj.Ponto(float(resultados[i-1]),float(resultados[i])))
 
 
     poligono = obj.Poligono(pontos)
@@ -228,6 +229,8 @@ def adicionar_poligono(window,coordenadas):
 
     window.poligonos_window.append(poligono)
     window.poligonos.append(poligono)
+
+    print([ponto.x for ponto in poligono.pontos])
 
     window.atualizar_viewport()
 
