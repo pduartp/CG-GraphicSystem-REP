@@ -1,4 +1,6 @@
 import math
+import classObjGeometricos as obj
+import re
 
 ############################################
 #      funções para o segundo trabalho     #
@@ -180,14 +182,56 @@ def escala_diminuir(window, fator_escala=0.9):
 
 # TODO: IMPLEMENTAR
 
-def adicionar_ponto():
-    print("<<< ADICIONAR PONTO >>>")
+def adicionar_ponto(window,coordenadas):
 
-def adicionar_linha():
-    print("<<< ADICIONAR LINHA >>>")
 
-def adicionar_poligono():
-    print("<<< ADICIONAR POLIGONO >>>")
+    resultados = re.findall(r'\d+', coordenadas)
+
+
+    ponto = obj.Ponto(float(resultados[0]),float(resultados[1]))
+    window.pontos_window.append(ponto)
+    window.pontos.append(ponto)
+
+    window.atualizar_viewport()
+
+
+def adicionar_linha(window,coordenadas):
+
+
+    resultados = re.findall(r'\d+', coordenadas)
+
+    ponto = obj.Ponto(float(resultados[0]),float(resultados[1]))
+
+    ponto2 = obj.Ponto(float(resultados[2]),float(resultados[3]))
+
+    reta = obj.Reta(ponto,ponto2)
+    window.retas_window.append(reta)
+    window.retas.append(reta)
+
+    window.atualizar_viewport()
+
+def adicionar_poligono(window,coordenadas):
+
+
+    resultados = re.findall(r'\d+', coordenadas)
+
+
+    pontos = []
+
+    for i, number in enumerate(resultados):
+        if i>0:
+            pontos.append(obj.Ponto(float(resultados[i-1]),float(resultados[i])))
+
+
+    poligono = obj.Poligono(pontos)
+
+
+    window.poligonos_window.append(poligono)
+    window.poligonos.append(poligono)
+
+    window.atualizar_viewport()
+
+
 
 ##################################
 #   FUNÇÃO PARA RESETAR A WINDOW #
@@ -195,5 +239,36 @@ def adicionar_poligono():
 
 # TODO: IMPLEMENTAR
 
-def resetar_window():
-    print("<<< RESETAR WINDOW >>>")
+def resetar_window(window):
+
+
+    for i, ponto in enumerate(window.pontos_window):
+
+        if i < len(window.pontos_window_iniciais):
+            window.pontos_window[i] = window.pontos_window_iniciais[i].copy()
+        else:
+            while (len(window.pontos_window) > len(window.pontos_window_iniciais)):
+                window.pontos_window.pop(i)
+                window.pontos.pop(i)
+
+    for i, reta in enumerate(window.retas_window):
+
+        if i < len(window.retas_window_iniciais):
+            window.retas_window[i] = window.retas_window_iniciais[i].copy()
+        else:
+            while (len(window.retas_window) > len(window.retas_window_iniciais)):
+                window.retas_window.pop(i)
+                window.retas.pop(i)
+
+    for i, poligono in enumerate(window.poligonos_window):
+
+        if i < len(window.poligonos_window_iniciais):
+            for i2, ponto in enumerate(window.poligonos_window[i].pontos):
+                window.poligonos_window[i].pontos[i2] = window.poligonos_window_iniciais[i].pontos[i2].copy()
+        else:
+            while(len(window.poligonos_window) > len(window.poligonos_window_iniciais)):
+                window.poligonos_window.pop(i)
+                window.poligonos.pop(i)
+
+    window.atualizar_viewport()
+
