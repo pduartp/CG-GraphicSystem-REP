@@ -2,6 +2,7 @@ from PyQt6 import QtGui, QtWidgets
 from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import QPushButton, QVBoxLayout, QWidget, QLabel, QGridLayout, QTextEdit, QLineEdit, QFormLayout
 from IPython.display import Image
+from random import randint
 import os
 import funcTransformacao as ft
 import classObjGeometricos as obj
@@ -141,7 +142,7 @@ class MainWindow(QtWidgets.QMainWindow):
         grid_layout.addWidget(self.button_add_point, 3, 0)
         grid_layout.addWidget(self.button_add_line, 3, 1)
         grid_layout.addWidget(self.button_add_polygon, 3, 2)
-
+       
 
         self.box = QFormLayout()
 
@@ -276,6 +277,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.draw_something()
 
     def add_point(self):
+        #self.criar_fractal()
 
         self.space1_text = self.space1.toPlainText()
         fs.adicionar_ponto(self,self.space1_text)
@@ -288,6 +290,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.draw_something()
 
     def add_polygon(self):
+        
         self.space3_text = self.space3.toPlainText()
         fs.adicionar_poligono(self,self.space3_text)
         self.draw_something()
@@ -295,6 +298,61 @@ class MainWindow(QtWidgets.QMainWindow):
     def window_reset(self):
         fs.resetar_window(self)
         self.draw_something()
+
+
+
+
+    def criar_fractal(self):
+        pontos = []
+
+        i = 0
+        x = 0
+        y = 0
+        while i<10:
+            ponto = obj.Ponto(x,y)
+            x+= randint(1,6)
+            y+= randint(1,6)
+            pontos.append(ponto.copy())    
+
+            i+=1
+
+        while i<13:
+            ponto = obj.Ponto(x,y)
+            x+= randint(1,6)
+            y-= randint(1,7)
+            pontos.append(ponto.copy())    
+
+            i+=1 
+        while i<16:
+            ponto = obj.Ponto(x,y)
+            x+= randint(-7,6)
+            y+= randint(-5,6)
+            pontos.append(ponto.copy())    
+
+            i+=1       
+
+        string1 = ""
+        for ponto in pontos:
+            string2 = str(ponto.x)+ "," +str(ponto.y) + ","
+            string1 = string1 + string2
+        string1 = string1 + "1 , 1"
+
+        print(string1)    
+
+        self.space3.setPlainText(string1)
+
+        i = 0
+        while i <150:
+            self.add_polygon()            
+            self.scale_zoomOut() 
+            self.rotate_right()   
+
+            i+=1
+
+
+
+
+
 
     # Método para desenhar os objetos na tela
     def draw_something(self):
@@ -332,9 +390,6 @@ class MainWindow(QtWidgets.QMainWindow):
         # Desenhando os polígonos na tela
         for poligono in self.poligonos:
             i = 0
-
-
-
 
             while (i < (len(poligono.pontos) - 1)):
                 painter.drawLine(int(poligono.pontos[i].x), int(poligono.pontos[i].y), int(poligono.pontos[i + 1].x),
