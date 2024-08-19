@@ -30,11 +30,11 @@ if __name__ == '__main__':
     for child in root:
         if (child.tag == 'viewport'):
             for child01 in child:
-                if((child01.tag == 'vpmin') or (child01.tag == 'vpmax')):
+                if ((child01.tag == 'vpmin') or (child01.tag == 'vpmax')):
                     resultados = re.findall(r'\d+', str(child01.attrib))
                     viewport.append(obj.Ponto(resultados[0], resultados[1]))
 
-        elif(child.tag == 'window'):
+        elif (child.tag == 'window'):
             for child02 in child:
                 resultados = re.findall(r'\d+', str(child02.attrib))
                 window.append(obj.Ponto(resultados[0], resultados[2]))
@@ -44,12 +44,12 @@ if __name__ == '__main__':
             pontos.append(obj.Ponto(resultados[0], resultados[1]))
 
         elif (child.tag == 'reta'):
-            pontos_da_reta =[]
+            pontos_da_reta = []
 
             for child2 in child:
                 resultados = re.findall(r'\d+', str(child2.attrib))
                 pontos_da_reta.append(obj.Ponto(resultados[0], resultados[1]))
-            
+
             retas.append(obj.Reta(pontos_da_reta[0], pontos_da_reta[1]))
 
         elif (child.tag == 'poligono'):
@@ -58,13 +58,13 @@ if __name__ == '__main__':
                 poligono.pontos.append(obj.Ponto(resultados[0], resultados[2]))
             poligonos.append(poligono)
 
-    #convert.to_int(pontos, retas, poligonos, window, viewport)
+    # convert.to_int(pontos, retas, poligonos, window, viewport)
     convert.to_float(pontos, retas, poligonos, window, viewport)
 
-    #classe polígono
-    #poligono2 = obj.Poligono(pontos)
+    # classe polígono
+    # poligono2 = obj.Poligono(pontos)
 
-    #window antes da transformação
+    # window antes da transformação
     window1 = []
 
     window1.append(window[0].copy())
@@ -75,20 +75,21 @@ if __name__ == '__main__':
     #######################################################
 
     pontos2 = [ponto.copy() for ponto in pontos]
-    retas2 =[reta.copy() for reta in retas]
+    retas2 = [reta.copy() for reta in retas]
     poligonos2 = [poligono.copy() for poligono in poligonos]
 
     ft.transformar2(pontos, retas, poligonos, window, viewport)
 
     # Criando e exibindo a janela da aplicação gráfica
     app = QtWidgets.QApplication(sys.argv)
-    window = w.MainWindow(pontos, retas, poligonos, window[0], window[1],    pontos2, retas2, poligonos2, window1[0], window1[1], viewport[0], viewport[1])
+    window = w.MainWindow(pontos, retas, poligonos, window[0], window[1], pontos2, retas2, poligonos2, window1[0],
+                          window1[1], viewport[0], viewport[1])
     window.show()
     app.exec()
 
     # ADICIONANDO UM DIRETÓRIO "output" para armazenar os arquivos de saída se não existir
     os.makedirs("output", exist_ok=True)
-    
+
     ##############################
     #   SALVANDO ARQUIVO   XML   #
     ##############################
@@ -106,20 +107,23 @@ if __name__ == '__main__':
     for reta in retas:
         arquivo.write("\n")
         arquivo.write("    <reta>\n")
-        arquivo.write("        <ponto x1=\"" + str(reta.ponto1.x - margem_x) + "\" y1=\"" + str(reta.ponto1.y - margem_y) + "\"/>\n")
-        arquivo.write("        <ponto x1=\"" + str(reta.ponto2.x - margem_x) + "\" y1=\"" + str(reta.ponto2.y - margem_y) + "\"/>\n")
+        arquivo.write("        <ponto x1=\"" + str(reta.ponto1.x - margem_x) + "\" y1=\"" + str(
+            reta.ponto1.y - margem_y) + "\"/>\n")
+        arquivo.write("        <ponto x1=\"" + str(reta.ponto2.x - margem_x) + "\" y1=\"" + str(
+            reta.ponto2.y - margem_y) + "\"/>\n")
         arquivo.write("    </reta>\n")
-    
+
     arquivo.write("\n")
 
     arquivo.write("    <poligono>\n")
     for ponto in poligono.pontos:
-        arquivo.write("        <ponto x=\"" + str(int(ponto.x) - int(margem_x)) + "\" y=\"" + str(int(ponto.y) - int(margem_y)) + "\"/>\n")
-    
+        arquivo.write("        <ponto x=\"" + str(int(ponto.x) - int(margem_x)) + "\" y=\"" + str(
+            int(ponto.y) - int(margem_y)) + "\"/>\n")
+
     arquivo.write("    </poligono>\n")
     arquivo.write("</dados>")
     arquivo.close()
-    
+
     # Mover o arquivo para a pasta output
     destination = os.path.join("output", "saida.xml")
     shutil.move("saida.xml", destination)
