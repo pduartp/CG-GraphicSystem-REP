@@ -77,6 +77,7 @@ def transformar2(pontos,retas,poligonos,window,viewport):
 
     # Aplicando a transformação no polígono
     for poligono in poligonos:
+
         for ponto in poligono.pontos:
             ponto.x = (float(ponto.x) * largura) + margem_x
             ponto.y = float(viewport_y) - ((float(ponto.y) * altura)) + margem_y
