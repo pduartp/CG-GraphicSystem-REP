@@ -1,2 +1,2 @@
 # CG-REP
-Repositório contendo trabalhos e atividades da disciplina de Computação Gráfica - IFNMG
+Repositório contendo o trabalho de uma interface gráfica simples que permite a manipulação e adição de objetos (ponto, reta e polígonos) de Computação Gráfica - IFNMG
